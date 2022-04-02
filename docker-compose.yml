@@ -2,6 +2,7 @@ version: '3'
 
 services:
   web:
+    build: .
     image: php:7.3-apache
     environment:
       TZ: Asia/Tokyo
@@ -9,5 +10,26 @@ services:
     ports:
       - 80:80
     volumes:
-      # - ./apache:/etc/apache2
       - ./html:/var/www/html
+  db:
+    image: mysql/mysql-server
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%' # https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/docker-mysql-more-topics.html#docker_var_mysql-root-host
+      TZ: Asia/Tokyo
+      LANG: C.UTF-8
+    ports:
+      - '4306:3306'
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 4040:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - db
+    # host: db, user: root, pass: passwordでログイン

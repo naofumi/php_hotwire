@@ -1,11 +1,23 @@
-<?php sleep(1) ?>
+<?php
+require(dirname(__FILE__) . '/../includes/setup.php');
+
+try {
+    $emails = $dbh->query('SELECT * FROM emails');
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+?>
 
 <turbo-frame id="email-list">
-    <a href="messages/01.html" class="list-group-item list-group-item-action">Email1</a>
-    <a href="messages/02.html" class="list-group-item list-group-item-action">Email2</a>
-    <a href="messages/03.html" class="list-group-item list-group-item-action">Email3</a>
-    <a href="messages/04.html" class="list-group-item list-group-item-action">Email4</a>
-    <a href="messages/05.html" class="list-group-item list-group-item-action">Email5</a>
-    <a href="messages/06.html" class="list-group-item list-group-item-action">Email6</a>
+    <div data-controller="email_list">
+        <?php foreach($emails as $email) :?>
+            <a href="message.html?id=<?php echo $email['id'] ?>"
+               class="list-group-item list-group-item-action"
+               data-action="click->email_list#activated"
+               data-email_list-target="theLink" >
+                <?php echo $email['title'] ?>
+            </a>
+        <?php endforeach; ?>
     </div>
 </turbo-frame>
