@@ -43,6 +43,14 @@ Accessing the server
 2. http://localhost:4040 to access PHPMyAdmin\
     (login with host: db, user: root, pass: password)
 
+# Examples
+
+#### Static site
+
+1. checkout branch `static_site`
+2. Access http://localhost/static_site/
+
+
 # Notes
 
 #### HTML URLs
